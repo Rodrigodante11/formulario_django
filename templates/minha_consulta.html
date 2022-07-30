@@ -13,11 +13,10 @@
 <body>
     <section class="container mt-2">
         <h1> Passagem</h1>
-        <form action="{% url 'minha_consulta' %}" method="POST">
-            {% csrf_token %}
-            {{ form }}
-            <input type="submit" value="OK" class="btn btn-success" >
-        </form>
+        <p> Origem: {{form.origem.value}}</p>
+        <p> Destino: {{form.destino.value}}</p>
+        <p> Data de Ida: {{form.data_ida.value}}</p>
+        <p> Data de Volta: {{form.data_volta.value}}</p>
     </section>
 </body>
 </html>
