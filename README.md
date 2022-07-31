@@ -6,7 +6,7 @@
  pip install -r requirements.txt 
 ```
 
-<p> Parabaixar o projeto  </p>
+<p> Para baixar o projeto  </p>
 
 ```
  git clone https://github.com/Rodrigodante11/formulario_django.git
