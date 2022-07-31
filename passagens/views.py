@@ -1,21 +1,23 @@
 from django.shortcuts import render
-from passagens.forms import PassagemForms
+from passagens.forms import PassagemForms, PessoaForms
 
 
 # Create your views here.
 def index(request):
     form = PassagemForms()
-    contexto = {'form': form}
+    pessoa_form = PessoaForms()
+    contexto = {'form': form, 'pessoa_form': pessoa_form}
     return render(request, 'index.html', contexto)
 
 
 def revisao_consulta(request):
     if request.method == 'POST':
         form = PassagemForms(request.POST)
+        pessoa_form = PessoaForms(request.POST)
+
         if form.is_valid():  # usa os metodos clean_atributo
-            contexto = {'form': form}
+            contexto = {'form': form, 'pessoa_form': pessoa_form}
             return render(request, 'minha_consulta.html', contexto)
         else:
-            print('Form invalido')
-            contexto = {'form': form}
+            contexto = {'form': form, 'pessoa_form': pessoa_form}
             return render(request, 'index.html', contexto)
