@@ -31,3 +31,10 @@ class PassagemForms(forms.Form):
             raise forms.ValidationError('Nao inclua Numeros!')
         else:
             return origem
+
+    def clean_destino(self):
+        destino = self.cleaned_data.get('destino')
+        if any(char.isdigit() for char in destino):  # Verificando se um dos caracteres eh digito
+            raise forms.ValidationError('Nao inclua Numeros!')
+        else:
+            return destino
