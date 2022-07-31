@@ -3,28 +3,28 @@ from tempus_dominus.widgets import DatePicker
 from datetime import datetime
 from passagens.classe_viagem import tipos_de_classe
 from passagens.validation import *
+from passagens.models import Passagem, ClasseViagem, Pessoa
 
 
-class PassagemForms(forms.Form):
-    origem = forms.CharField(label='Origem:', max_length=100)
-    destino = forms.CharField(label='Destino:', max_length=100)
+class PassagemForms(forms.ModelForm):
+    data_pesquisa = forms.DateField(label='Data da pesquisa:', disabled=True, initial=datetime.today())
 
-    data_ida = forms.DateField(label='Ida:', widget=DatePicker(
-        options={
+    class Meta:
+        model = Passagem
+        fields = '__all__'
+        labels = {
+            'data_ida': 'Data de Ida',
+            'data_volta': 'Data de Volta',
+            'classe_viagem': 'Classe de viagem'
+        }
+        options = {
             'minDate': str(datetime.today()),
             'maxDate': '2023-01-20',
-        },
-    ), )
-    data_volta = forms.DateField(label='Volta:', widget=DatePicker())
-    data_pesquisa = forms.DateField(label='Data da pesquisa:', disabled=True, initial=datetime.today())
-    classe_viagem = forms.ChoiceField(label='Classe do Voo:', choices=tipos_de_classe)
-    informacoes = forms.CharField(
-        label='Informacoes extrax:',
-        max_length=200,
-        widget=forms.Textarea(),
-        required=False
-    )
-    email = forms.EmailField(label='Email:', max_length=150)
+        }
+        widgets = {
+            'data_ida': DatePicker(options=options),
+            'data_volta': DatePicker(options=options)
+        }
 
     def clean(self):
         origem = self.cleaned_data.get('origem')
@@ -33,7 +33,7 @@ class PassagemForms(forms.Form):
         destino = self.cleaned_data.get('destino')
         lista_erros = {}
 
-        campo_tem_algum_numero(origem, 'origem',  lista_erros)
+        campo_tem_algum_numero(origem, 'origem', lista_erros)
         campo_tem_algum_numero(destino, 'destino', lista_erros)
         origem_destino_iguais(origem, destino, lista_erros)
         data_id_maior_que_data_volta(data_ida, data_volta, lista_erros)
